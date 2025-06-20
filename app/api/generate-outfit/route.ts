@@ -36,18 +36,18 @@ export async function POST() {
   const randomTop = _.sample(tops);
   const randomBottom = _.sample(bottoms);
 
-  // Function to generate public URLs for images
-  const getPublicUrl = (item: Item) => {
+  // Function to generate local API URLs for images
+  const getLocalImageUrl = (item: Item) => {
     if (!item.image_front) return item;
-    const { data } = supabase.storage
-      .from("items")
-      .getPublicUrl(item.image_front);
-    return { ...item, image_front: data.publicUrl };
+    return { 
+      ...item, 
+      image_front: `/api/image?path=${encodeURIComponent(item.image_front)}` 
+    };
   };
 
   const outfit = {
-    top: getPublicUrl(randomTop!),
-    bottom: getPublicUrl(randomBottom!),
+    top: getLocalImageUrl(randomTop!),
+    bottom: getLocalImageUrl(randomBottom!),
   };
 
   return NextResponse.json({ outfit });

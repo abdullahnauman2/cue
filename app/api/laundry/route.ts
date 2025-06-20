@@ -13,7 +13,7 @@ export async function POST() {
 
   const { error } = await supabase
     .from("items")
-    .update({ is_dirty: false })
+    .update({ is_dirty: false, wear_count: 0 })
     .eq("user_id", user.id);
 
   if (error) {

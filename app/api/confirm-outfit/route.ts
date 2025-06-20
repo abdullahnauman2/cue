@@ -31,10 +31,10 @@ export async function POST(req: Request) {
   }
 
   // Increment wear_count for bottom
-  const { error: wearCountError } = await supabase.rpc("increment_wear_count", {
-    item_id: bottom.id,
-    increment_by: 1,
-  });
+  const { error: wearCountError } = await supabase
+    .from("items")
+    .update({ wear_count: bottom.wear_count + 1 })
+    .eq("id", bottom.id);
 
   if (wearCountError) {
     // Note: this won't roll back the dirty status. For a real app, use a transaction.

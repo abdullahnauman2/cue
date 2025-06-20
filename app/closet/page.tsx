@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function ClosetPage() {
   const supabase = await createClient();
 
   const {
@@ -14,7 +14,11 @@ export default async function Page() {
 
   return (
     <div>
-      <p>Today&apos;s Outfit</p>
+      <h1 className="text-2xl font-bold">Update Your Closet</h1>
+      <p className="text-muted-foreground">
+        Add new items to your digital wardrobe here.
+      </p>
+      {/* Item upload form will go here */}
     </div>
   );
-}
+} 
