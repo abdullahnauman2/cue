@@ -1,0 +1,72 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Database schema and RLS patterns for Cue project
+globs: "app/api/**/*"
+alwaysApply: false
+---
+
+# Database Schema and RLS Patterns
+
+## Existing Tables (Already Created)
+### Items Table
+- `id`: UUID primary key
+- `user_id`: UUID references auth.users (for RLS)
+- `name`: TEXT (e.g., "cream linen shirt")
+- `type`: TEXT (e.g., "t-shirt", "pants", "sweatshirt")
+- `image_front`: TEXT (Supabase Storage URL)
+- `image_back`: TEXT (optional back image)
+- `last_worn`: DATE
+- `wear_count`: INTEGER (pants tracking, resets on laundry)
+- `is_dirty`: BOOLEAN (false = eligible to wear)
+
+### Outfits Table
+- `id`: UUID primary key
+- `user_id`: UUID references auth.users
+- `date`: DATE (when outfit was worn)
+- `top_id`: UUID references items(id)
+- `bottom_id`: UUID references items(id)
+- `source`: TEXT ('llm', 'manual', 'regenerated')
+- `notes`: TEXT (optional)
+
+## RLS Security
+All tables have RLS enabled with policies:
+- Users can only see/modify their own data
+- Filter by `auth.uid() = user_id`
+
+## Supabase Client Usage
+```typescript
+import { createClient } from '@supabase/supabase-js'
+
+// For API routes (server-side)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
+// Get current user
+const { data: { user } } = await supabase.auth.getUser()
+```
+
+## Query Patterns
+```typescript
+// Get Clean Eligible Items
+// Tops: clean and not worn in last 7 days
+const { data: tops } = await supabase
+  .from('items')
+  .select('*')
+  .eq('is_dirty', false)
+  .eq('type', 'top-category')
+  .or(`last_worn.is.null,last_worn.lt.${sevenDaysAgo}`)
+
+// Bottoms: clean and (wear_count < 3 OR not worn in 14 days)
+const { data: bottoms } = await supabase
+  .from('items')
+  .select('*')
+  .eq('is_dirty', false)
+  .eq('type', 'bottom-category')
+  .or(`wear_count.lt.3,last_worn.lt.${fourteenDaysAgo}`)
+  ```

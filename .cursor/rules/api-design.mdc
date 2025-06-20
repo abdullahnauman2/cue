@@ -1,0 +1,77 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: API route patterns and implementations for Cue outfit generation
+globs: "app/api/**/*"
+alwaysApply: false
+---
+
+# API Routes Design Patterns
+
+## Core API Endpoints
+
+### POST /api/generate-outfit
+
+**Purpose:** Generate outfit recommendation using GPT-4o Vision
+
+**Request:** No body (user from auth token)
+**Response:**
+{
+top_id: string,
+bottom_id: string,
+reasoning?: string
+}
+
+**Implementation Flow:**
+
+1. Verify Supabase auth token
+2. Query eligible clean items (tops + bottoms)
+3. Send item images to GPT-4o Vision
+4. Return selected outfit combination
+
+### POST /api/confirm-outfit
+
+**Purpose:** User confirms wearing the suggested outfit
+
+**Request:**
+{
+top_id: string,
+bottom_id: string
+}
+
+**Database Updates:**
+
+- Top: `is_dirty = true`, `last_worn = today`
+- Bottom: `wear_count += 1`, `is_dirty = true` if `wear_count >= 3`, `last_worn = today`
+- Create outfit record in `outfits` table
+
+### POST /api/laundry
+
+**Purpose:** Reset all items to clean state
+
+**Request:** No body
+**Database Updates:**
+
+- All user items: `is_dirty = false`, `wear_count = 0`
+
+## Error Handling Pattern
+
+Always return proper HTTP status codes:
+
+- Success: return NextResponse.json({ data })
+- Client error: return NextResponse.json({ error: "Invalid input" }, { status: 400 })
+- Auth error: return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+- Server error: return NextResponse.json({ error: "Internal error" }, { status: 500 })
+
+## Authentication Pattern
+
+Use Supabase service role key for server-side auth verification
+
+## GPT-4o Vision Integration
+
+Send item images with descriptions to GPT-4o Vision model
+Request JSON response with selected top_id and bottom_id
+Include reasoning for outfit choice

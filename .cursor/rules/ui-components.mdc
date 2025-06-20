@@ -1,0 +1,117 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: UI components, design system, and styling patterns for an internal wardrobe tool – minimalist, information-first, desktop-focused
+globs: "app/**/*.tsx,components/**/*.tsx"
+alwaysApply: false
+---
+
+# UI Components and Design System
+
+## Design Principles
+
+- **Internal & Information-First**: Built for an internal user, designed to surface clear, utilitarian information
+- **Desktop-First**: Optimized for laptop/monitor usage (1280–1440px wide)
+- **Visual Clarity**: Clean, grid-based layout with high white space and minimal chrome
+- **Mood**: Calm, analytical, and elegant — no unnecessary flair, drama, or playfulness
+- **Imagery-Centric**: Clothing items displayed prominently in structured, framed cards
+- **Component Library**: Always use [shadcn/ui](https://ui.shadcn.com/) components where applicable to maintain visual and functional consistency
+
+## Layout System
+
+- **Container Max Width**: 1200px centered with 64px side padding
+- **Layout**: Two-column grid on wide screens; stack on narrow
+- **Spacing Scale**: 8px base (16, 24, 32, 40, 64px increments)
+- **Rounded Corners**: 6px for most elements, square or 4px for framed cards
+- **No Shadows**: Avoid drop shadows — rely on spacing and contrast for separation
+
+## Key Pages Design
+
+### /today (Outfit Dashboard)
+
+**Layout:**
+
+- Two-column layout:
+  - **Left:** Full outfit recommendation (shirt, pants, shoes, etc.) in stacked image cards
+  - **Right:** Context panel (e.g. weather, recency, variants)
+
+**Outfit Item Cards:**
+
+- Image centered in a dark frame (`#1A1A1A`) on white background
+- Frame thickness: 2–3px
+- Image padding: 24px inside the frame
+- Text label below: Item name in small neutral font (14–16px)
+- No shadows, no hover animations beyond maybe subtle underline or opacity change
+
+### /history (Outfit Log)
+
+- Simple vertical list or grid of past outfits
+- Each card = full outfit thumbnail, date, short context
+
+### /inventory (Clothing Index)
+
+- Filterable grid of all owned clothing items
+- Tags for category, season, recency
+
+## Component Patterns
+
+### Cards
+
+- **Background:** `#FFFFFF`
+- **Frame Border:** Solid dark gray `#1A1A1A`
+- **Padding:** 24px min inside card
+- **Radius:** 6px (or square if better visually)
+- **Shadow:** None
+
+### Buttons
+
+- **Primary:** Ghost style, outline only (`#1A1A1A`), 8px radius
+- **Hover State:** Background `rgba(0,0,0,0.05)`
+- **Typography:** 16px Inter, medium weight
+- **Padding:** 12px vertical, 24px horizontal
+
+### Typography
+
+- **Font:** Inter, sans-serif system font stack fallback
+- **Hierarchy:**
+  - H1: 32px, regular
+  - H2: 24px, regular
+  - H3: 18px, medium
+  - Body: 16px
+  - Label/Meta: 13–14px, light
+- **Tone:** Analytical, quiet — no dramatic weights or italics
+
+## Color Palette
+
+- **Background:** `#FFFFFF`
+- **Primary Text:** `#1A1A1A`
+- **Secondary Text:** `#6B7280`
+- **Frame Border:** `#1A1A1A`
+- **Muted UI Elements:** `#C0C0C0` to `#DADADA`
+- **Hover Fill:** `rgba(0, 0, 0, 0.05)`
+
+## Responsive Design
+
+- **Mobile/tablet fallback:** Secondary concern
+- **Breakpoints:** 1440px, 1024px, 768px
+- **Stack layout:** Collapse to single-column with consistent vertical spacing
+
+## Moodboard
+
+- **Aesthetic Reference:** Fetchr-style minimalism (dark frames, white backgrounds, strong vertical rhythm)
+- **Philosophy:** If this were a zine or index catalog, it would be clean, sharp, and easy to flip through
+- **Not:** Playful, trendy, or consumer-facing
+
+## Accessibility & Performance
+
+- High contrast text and components
+- No dynamic animations
+- Immediate updates on action (e.g. outfit change triggers re-render, no confirmation needed)
+- Full keyboard accessibility where applicable
+
+## Summary
+
+This is a minimalist internal tool designed for confident, clean daily use. Every interaction is intentional, every component serves clarity. It’s a wardrobe control panel — not a stylist, not a shopping app.

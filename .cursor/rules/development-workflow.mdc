@@ -1,0 +1,86 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Development workflow, code standards, and best practices for Cue project
+globs: "**/*"
+alwaysApply: false
+---
+
+# Development Workflow and Code Standards
+
+## Code Quality Standards
+
+- **TypeScript:** Use strict mode, define proper interfaces
+- **Error Handling:** Always handle async errors with try/catch
+- **Imports:** Organize imports (React, libraries, local components, utils)
+- **Components:** Functional components with hooks only
+- **State Management:** useState and useContext for local state
+
+## File Organization
+
+- **Pages:** app/ directory (Next.js App Router)
+- **Components:** components/ directory with index exports
+- **Utilities:** lib/ directory for shared functions
+- **Types:** types/ directory for TypeScript interfaces
+- **API Routes:** app/api/ following REST conventions
+
+## Naming Conventions
+
+- **Files:** kebab-case for files (outfit-card.tsx)
+- **Components:** PascalCase (OutfitCard)
+- **Functions:** camelCase (generateOutfit)
+- **Constants:** UPPER_SNAKE_CASE (API_ENDPOINTS)
+- **Interfaces:** PascalCase with I prefix (IOutfitItem)
+
+## Testing Approach
+
+- **Start simple:** Manual testing first, automated tests later
+- **API Testing:** Test each endpoint with sample data
+- **Component Testing:** Visual testing in development
+- **Error Cases:** Test auth failures, API errors, edge cases
+
+## Performance Considerations
+
+- **Images:** Optimize clothing images, use Next.js Image component
+- **API Calls:** Implement loading states and error boundaries
+- **Caching:** Consider React Query for API state management
+- **Bundle Size:** Import only needed components from libraries
+
+## Development Process
+
+1. **Build incrementally:** One feature at a time
+2. **Test frequently:** Manual testing after each change
+3. **Commit often:** Small, focused commits with clear messages
+4. **Database first:** Test queries in Supabase before coding
+5. **API first:** Test endpoints with Postman/Thunder Client
+
+## Environment Management
+
+- **Local:** .env.local with development keys
+- **Production:** Vercel environment variables
+- **Security:** Never commit secrets, use proper environment variables
+
+## Debugging Workflow
+
+- **Console logs:** Liberal use during development
+- **Network tab:** Monitor API calls and responses
+- **Supabase logs:** Check database queries and auth
+- **Error boundaries:** Graceful error handling in UI
+
+## Git Workflow
+
+- **Main branch:** Always deployable
+- **Feature branches:** For new features
+- **Commit messages:** Clear, descriptive (feat: add outfit generation)
+- **Small commits:** Easy to review and revert
+
+## Priority Focus Areas
+
+1. **Auth flow:** Ensure login/logout works perfectly
+2. **Database connections:** Verify queries work in all scenarios
+3. **API reliability:** Handle all error cases gracefully
+4. **UI responsiveness:** Smooth interactions and loading states
+5. **Data consistency:** Ensure wear tracking logic is bulletproof

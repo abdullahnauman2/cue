@@ -1,16 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { hasEnvVars } from "../utils";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
-
-  // If the env vars are not set, skip middleware check. You can remove this once you setup the project.
-  if (!hasEnvVars) {
-    return supabaseResponse;
-  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -45,16 +39,17 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (
-    request.nextUrl.pathname !== "/" &&
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
+  const publicRoutes = ["/auth/login", "/"];
+  const pathname = request.nextUrl.pathname;
+
+  // if user is signed in and the current path is public, redirect to /today
+  if (user && publicRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/today", request.url));
+  }
+
+  // if user is not signed in and the current path is not public, redirect to /auth/login
+  if (!user && !publicRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.

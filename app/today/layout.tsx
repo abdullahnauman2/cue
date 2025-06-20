@@ -2,7 +2,11 @@ import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import Link from "next/link";
 
-export default function Home() {
+export default function ProtectedLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -21,14 +25,7 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1">
-        <div className="container py-6">
-          <div className="flex flex-col items-center justify-center text-center py-20">
-            <h1 className="text-4xl font-bold">Cue</h1>
-            <p className="text-lg text-muted-foreground mt-2">
-              Your minimalist daily outfit companion.
-            </p>
-          </div>
-        </div>
+        <div className="container py-6">{children}</div>
       </main>
     </div>
   );

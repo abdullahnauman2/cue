@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Cue - Minimalist Daily Outfit Companion project specification and architecture
+globs: "**/*"
+alwaysApply: true
+---
+
+# Cue - Minimalist Daily Outfit Companion
+
+## Project Overview
+
+**Goal:** A minimalist personal utility that helps users get dressed each day by suggesting outfits based on their wardrobe using GPT-4o Vision. Tracks what's been worn, ensures variety, and provides tasteful recommendations.
+
+**Current Status:** MVP foundation complete with working auth, database schema, and storage setup. Ready for core feature development.
+
+**Repository:** https://github.com/abdullahnauman2/cue
+**Deployment:** Vercel with Supabase backend
+
+## Tech Stack
+
+- **Frontend:** Next.js (App Router), Tailwind CSS, shadcn/ui
+- **Backend:** Next.js API Routes
+- **Database:** Supabase Postgres with RLS
+- **Storage:** Supabase Storage (private bucket "items")
+- **Auth:** Supabase Auth (working and tested)
+- **AI:** OpenAI GPT-4o Vision API
+- **Deployment:** Vercel
+
+## Database Schema (Already Created)
+
+### Items Table
+
+```sql
+CREATE TABLE items (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users NOT NULL,
+  name TEXT NOT NULL,
+  type TEXT NOT NULL, -- e.g., "t-shirt", "pants", "sweatshirt"
+  image_front TEXT, -- Supabase Storage URL
+  image_back TEXT,  -- Optional back image URL
+  last_worn DATE,
+  wear_count INTEGER DEFAULT 0, -- For pants tracking
+  is_dirty BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+```
