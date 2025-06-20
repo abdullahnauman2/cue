@@ -82,7 +82,7 @@ export function MainLayout({ children }: MainLayoutProps) {
               <Link href="/" className="flex items-center gap-3">
                 <GlowingOrb />
                 <h1 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-                  Cue
+                  Aura
                 </h1>
               </Link>
               <Button

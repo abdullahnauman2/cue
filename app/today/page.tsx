@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import { createClient } from "@/lib/supabase/client";
 import {
   Check,
@@ -13,7 +11,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Item, Outfit } from "@/lib/types";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-
 
 export default function TodayPage() {
   const [items, setItems] = useState<Item[]>([]);

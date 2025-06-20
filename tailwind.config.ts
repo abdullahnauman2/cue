@@ -84,11 +84,13 @@ const config = {
         "pulse-slow": {
           "0%, 100%": {
             opacity: "1",
-            boxShadow: "0 0 1rem theme(colors.blue.500)",
+            // boxShadow: "0 0 1rem theme(colors.blue.500)",
+            boxShadow: "0 0 1rem theme(colors.purple.400)",
           },
           "50%": {
             opacity: "0.85",
-            boxShadow: "0 0 1.5rem theme(colors.indigo.600)",
+            // boxShadow: "0 0 1.5rem theme(colors.indigo.600)",
+            boxShadow: "0 0 1.5rem theme(colors.purple.500)",
           },
         },
       },
